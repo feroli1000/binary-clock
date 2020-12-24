@@ -1,10 +1,9 @@
 <html lang="en">
-
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="shortcut icon" href="/img/icon.png" />
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -12,6 +11,10 @@
   <title>Binary-Coded Decimal Clock - Javascript Implementation</title>
   <link rel="stylesheet" href="./bcdc.css">
   <style>
+    .navbar .logo {
+      width: 48px;
+    }
+
     .container a {
       text-decoration: none;
     }
@@ -23,10 +26,29 @@
     #tb-legend td {
       text-align: center;
     }
+
+    .github a {
+      color: #666;
+    }
+
+    .github img {
+      width: 24px;
+    }
   </style>
 </head>
 
 <body>
+  <nav class="navbar navbar-light bg-light">
+    <div class="container">
+      <div class="navbar-brand">
+        <img src="./img/icon.png" class="logo"> Binary Clock
+      </div>
+      <div class="github">
+        <a href="https://github.com/feroli1000/binary-clock"><img src="./img/github.png"> Github</a>
+      </div>
+    </div>
+  </nav>
+
   <main class="container p-5">
     <h3>Binary-Coded Decimal Clock - Javascript Implementation</h3>
     <h6><a href="https://en.wikipedia.org/wiki/Binary_clock"
@@ -36,15 +58,48 @@
       <!-- Dinamic content -->
     </table>
 
-    <table id="tb-legend" class="table table-bordered table-striped w-50 mt-5">
-      <thead>
-        <tr>
-          <th class="text-center">Decimal</th>
-          <th class="text-center" colspan="4">Binary</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="row mt-5">
+      <div class="col-xl-6">
+        <table id="tb-legend" class="table table-bordered table-striped table-sm">
+          <thead>
+            <tr>
+              <th class="text-center">Decimal</th>
+              <th class="text-center" colspan="4">Binary</th>
+              <th class="text-center">Leds</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dinamic content -->
+          </tbody>
+        </table>
+        <div class="mt-5">
+          <a href="https://github.com/feroli1000/binary-clock" class="btn btn-outline-primary"><img
+              src="./img/github.png"> <span class="h5">Source Code</span></a>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <h4>Binary-coded decimal clocks</h4>
+        <div>
+          <p><b>Each column represents a single decimal digit</b>, a format known as binary-coded decimal (BCD). The
+            bottom row
+            in each column represents 1 (or 20), with each row above representing higher powers of two, up to 23 (or 8).
+          </p>
+          <p>To read each individual digit in the time, the user adds the values that each illuminated LED represents,
+            then reads these from left to right.</p>
+          <p>The first two columns represent the hour, the next two represent the minute and the last two represent the
+            second. Since zero digits are not illuminated, the positions of each digit must be memorized if the clock is
+            to be usable in the dark.</p>
+          <div class="card" style="width: 18rem;">
+            <img src="./img/220px-Binary_clock.svg.png" class="card-img-top" alt="">
+            <div class="card-body">
+              <p class="card-text">Reading a binary-coded decimal clock: Add the values of each column of LEDs to get
+                six decimal digits. There are two columns each for hours, minutes and seconds</p>
+            </div>
+          </div>
+          <p>Font: <a href="https://en.wikipedia.org/wiki/Binary_clock" target="_blank">Wikipedia</a></p>
+        </div>
+      </div>
+    </div>
   </main>
   <script src="./bcdc.js"></script>
   <script>
@@ -54,11 +109,24 @@
       fillTableLegend();
     });
 
+    const LEDS_NUMBERS = [
+      [], // 0
+      [1], // 1
+      [2], // 2
+      [1, 2], // 3
+      [4], // 4
+      [1, 4], // 5
+      [2, 4], // 6
+      [1, 2, 4], // 7
+      [8], // 8
+      [1, 8], // 9
+    ];
+
     function fillTableLegend() {
       const table = document.getElementById('tb-legend');
       const tbody = table.getElementsByTagName('tbody')[0];
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach(elem => {
-        const bin = elem.toString(2).padStart(4, '0');
+        const bin = elem.toString(2).padStart(4, '0'); // to binary
         const tr = document.createElement('tr');
         tr.innerHTML = `
         <td>${elem}</td>
@@ -66,6 +134,7 @@
         <td>${bin[1]}</td>
         <td>${bin[2]}</td>
         <td>${bin[3]}</td>
+        <td>${LEDS_NUMBERS[elem]}</td>
         `;
         tbody.append(tr);
       });
