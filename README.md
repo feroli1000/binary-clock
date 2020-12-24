@@ -1,3 +1,5 @@
+# Binary-Coded Decimal Clock - Javascript Implementation
+
 [![Demo](https://img.shields.io/badge/DEMO-HERE-green.svg)](https://binary-clock-js.netlify.app)
 
 <div>
