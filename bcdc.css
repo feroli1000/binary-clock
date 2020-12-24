@@ -1,0 +1,28 @@
+#tb-clock {
+  table-layout: fixed;
+}
+
+#tb-clock th,
+#tb-clock td {
+  text-align: center;
+}
+
+#tb-clock td img {
+  width: 50px;
+}
+
+#tb-clock tr td:first-child {
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+#clock-time {
+  font-size: 1.6rem;
+}
+
+#time-mode input[type="text"] {
+  display: inline-block;
+  width: 140px;
+  text-align: center;
+  margin: 0;
+}
