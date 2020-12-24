@@ -1,4 +1,5 @@
-# Binary-Coded Decimal Clock - Javascript Implementation
+## Binary-Coded Decimal Clock - Javascript Implementation
+[https://en.wikipedia.org/wiki/Binary_clock](https://en.wikipedia.org/wiki/Binary_clock)
 
 [![Demo](https://img.shields.io/badge/DEMO-HERE-green.svg)](https://binary-clock-js.netlify.app)
 
