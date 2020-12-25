@@ -28,10 +28,6 @@
       width: 24px;
     }
 
-    #tb-legend {
-      table-layout: fixed;
-    }
-
     #tb-legend th,
     #tb-legend td {
       text-align: center;
@@ -42,19 +38,19 @@
       font-weight: bold;
     }
 
-    .signal-on,
-    .signal-off {
+    #tb-legend .signal-on,
+    #tb-legend .signal-off {
       border-radius: 50%;
       width: 10px;
       height: 10px;
       margin: 1px auto;
     }
 
-    .signal-off {
+    #tb-legend .signal-off {
       background: lightblue;
     }
 
-    .signal-on {
+    #tb-legend .signal-on {
       background: red;
     }
   </style>
@@ -72,7 +68,7 @@
     </div>
   </nav>
 
-  <main class="container p-5">
+  <main class="container py-5">
     <h3>Binary-Coded Decimal Clock - Javascript Implementation</h3>
     <h6><a href="https://en.wikipedia.org/wiki/Binary_clock"
         target="_blank">https://en.wikipedia.org/wiki/Binary_clock</a></h6>
@@ -95,7 +91,7 @@
             <!-- Dinamic content -->
           </tbody>
         </table>
-        <div class="mt-5">
+        <div class="my-5">
           <a href="https://github.com/feroli1000/binary-clock" class="btn btn-outline-primary"><img
               src="./img/github.png"> <span class="h5">Source Code</span></a>
         </div>
@@ -129,7 +125,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       (new BinaryDecimalClock('tb-clock')).init();
       fillTableLegend();
-    });
+    }, false);
 
     const LEDS_NUMBERS = [
       [0], // 0

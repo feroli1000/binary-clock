@@ -20,9 +20,24 @@
   font-size: 1.6rem;
 }
 
-#time-mode input[type="text"] {
+.time-mode input {
   display: inline-block;
   width: 140px;
   text-align: center;
   margin: 0;
+}
+
+@media (max-width: 1023px) {
+  #tb-clock td img {
+    width: 24px;
+  }
+
+  tfoot button.btn {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+  }
+
+  .time-mode input {
+    width: 80%;
+  }
 }

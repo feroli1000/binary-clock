@@ -125,22 +125,32 @@ class BinaryDecimalClock {
     tr3.innerHTML = `
       <th colspan="2"><button id="btn-system" class="btn btn-primary" data-mode="system">System Time</button></th>
       <th colspan="2"><button id="btn-random" class="btn btn-secondary" data-mode="random">Random Time</button></th>
-      <th colspan="3" id="time-mode">
+      <th colspan="3" class="time-mode">
         <button id="btn-imperative" class="btn btn-secondary" data-mode="imperative">Imperative Time</button>
-        <input id="imp-time" type="text" class="form-control" placeholder="hh:mm:ss" maxlength="8" value="18:23:57">
+        <input id="ipt-imperative" type="tel" class="form-control" placeholder="hh:mm:ss" maxlength="8" value="18:23:57">
       </th>`;
-    tfoot.append(tr1, tr2, tr3);
-    this.TABLE.append(tfoot);
-    // Buttons events
-    const table_id = this.TABLE.getAttribute('id');
-    const buttons = document.querySelectorAll(`#${table_id} tfoot button`);
-    const _self = this;
-    buttons.forEach(elem => {
-      elem.addEventListener("click", function () {
-        const mode = this.getAttribute('data-mode');
-        _self.setTimeMode(mode);
+    (new Promise((resolve, reject) => {
+      tfoot.append(tr1, tr2, tr3);
+      this.TABLE.append(tfoot);
+      resolve();
+    }).then(() => {
+      // Buttons events
+      const table_id = this.TABLE.getAttribute('id');
+      const buttons = document.querySelectorAll(`#${table_id} tfoot button`);
+      const _self = this;
+      buttons.forEach(elem => {
+        elem.addEventListener('click', function () {
+          const mode = this.getAttribute('data-mode');
+          _self.setTimeMode(mode);
+        }, false);
+      });
+      // Input event
+      document.getElementById('ipt-imperative').addEventListener('keyup', function () {
+        const size = this.value.length;
+        (size === 2) && (this.value += ':');
+        (size === 5) && (this.value += ':');
       }, false);
-    });
+    }));
   }
 
   setTimeMode(mode) {
@@ -188,9 +198,9 @@ class BinaryDecimalClock {
     }
     if (this.time_mode === 'imperative') {
       const isValidTime = (value) => /^([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])$/.test(value);
-      const time = document.getElementById("imp-time").value;
+      const time = document.getElementById('ipt-imperative').value;
       if (!isValidTime(time)) {
-        alert(`${time} is not a valid time`);
+        alert(`'${time}' is not a valid time`);
         return null;
       }
       const hours = parseInt(time.substr(0, 2), 10);
