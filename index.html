@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -19,20 +20,42 @@
       text-decoration: none;
     }
 
-    #tb-legend {
-      table-layout: fixed;
-    }
-
-    #tb-legend td {
-      text-align: center;
-    }
-
     .github a {
       color: #666;
     }
 
     .github img {
       width: 24px;
+    }
+
+    #tb-legend {
+      table-layout: fixed;
+    }
+
+    #tb-legend th,
+    #tb-legend td {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    #tb-legend tr td:nth-child(5) {
+      font-weight: bold;
+    }
+
+    .signal-on,
+    .signal-off {
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      margin: 1px auto;
+    }
+
+    .signal-off {
+      background: lightblue;
+    }
+
+    .signal-on {
+      background: red;
     }
   </style>
 </head>
@@ -60,12 +83,12 @@
 
     <div class="row mt-5">
       <div class="col-xl-6">
-        <table id="tb-legend" class="table table-bordered table-striped table-sm">
+        <table id="tb-legend" class="table table-bordered table-striped">
           <thead>
             <tr>
-              <th class="text-center">Decimal</th>
-              <th class="text-center" colspan="4">Binary</th>
-              <th class="text-center">Leds</th>
+              <th colspan="4">Binary</th>
+              <th>Decimal</th>
+              <th colspan="2">Leds</th>
             </tr>
           </thead>
           <tbody>
@@ -104,37 +127,53 @@
   <script src="./bcdc.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const objBinDecClock = new BinaryDecimalClock('tb-clock');
-      objBinDecClock.init();
+      (new BinaryDecimalClock('tb-clock')).init();
       fillTableLegend();
     });
 
     const LEDS_NUMBERS = [
-      [], // 0
+      [0], // 0
       [1], // 1
       [2], // 2
-      [1, 2], // 3
+      [2, 1], // 3
       [4], // 4
-      [1, 4], // 5
-      [2, 4], // 6
-      [1, 2, 4], // 7
+      [4, 1], // 5
+      [4, 2], // 6
+      [4, 2, 1], // 7
       [8], // 8
-      [1, 8], // 9
+      [8, 1], // 9
     ];
+
+    function getBinaryArray(num) {
+      return num.toString(2).padStart(4, '0').split('');
+    }
+
+    function getDisplay(digit) {
+      const nums = getBinaryArray(digit);
+      let ret = '';
+      nums.forEach(elem => {
+        const signal = elem > 0 ? 'signal-on' : 'signal-off';
+        ret += `<div class="${signal}"></div>`;
+      });
+      return ret;
+    }
 
     function fillTableLegend() {
       const table = document.getElementById('tb-legend');
       const tbody = table.getElementsByTagName('tbody')[0];
+
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach(elem => {
-        const bin = elem.toString(2).padStart(4, '0'); // to binary
+        const binary = getBinaryArray(elem);
+        const display = getDisplay(elem);
         const tr = document.createElement('tr');
         tr.innerHTML = `
+        <td>${binary[0]}</td>
+        <td>${binary[1]}</td>
+        <td>${binary[2]}</td>
+        <td>${binary[3]}</td>
         <td>${elem}</td>
-        <td>${bin[0]}</td>
-        <td>${bin[1]}</td>
-        <td>${bin[2]}</td>
-        <td>${bin[3]}</td>
         <td>${LEDS_NUMBERS[elem]}</td>
+        <td>${display}</td>
         `;
         tbody.append(tr);
       });

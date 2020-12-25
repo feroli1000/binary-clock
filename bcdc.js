@@ -3,9 +3,9 @@ class BinaryDecimalClock {
   constructor(table_id) {
     // Constants
     this.TABLE = document.getElementById(table_id);
-    this.IMG_ON = './img/ton.jpg';
-    this.IMG_OFF = './img/toff.jpg';
-    this.OBJ_TIME = {
+    this.IMG_ON = './img/on.jpg';
+    this.IMG_OFF = './img/off.jpg';
+    this.TIME_OBJ = {
       hor_1: 0,
       hor_2: 0,
       min_1: 0,
@@ -131,6 +131,7 @@ class BinaryDecimalClock {
       </th>`;
     tfoot.append(tr1, tr2, tr3);
     this.TABLE.append(tfoot);
+    // Buttons events
     const table_id = this.TABLE.getAttribute('id');
     const buttons = document.querySelectorAll(`#${table_id} tfoot button`);
     const _self = this;
@@ -208,7 +209,7 @@ class BinaryDecimalClock {
     const hours = dt.getHours().toString().padStart(2, '0'); // '00'..'23'
     const minutes = dt.getMinutes().toString().padStart(2, '0'); // '00'..'59'
     const seconds = dt.getSeconds().toString().padStart(2, '0'); // '00'..'59'
-    this.OBJ_TIME = {
+    this.TIME_OBJ = {
       hor_1: Number(hours.slice(0, 1)), // digit 1
       hor_2: Number(hours.slice(1)),    // digit 2
       min_1: Number(minutes.slice(0, 1)),
@@ -218,19 +219,19 @@ class BinaryDecimalClock {
     };
   }
 
-  showHumanTime() {
+  showDecimalTime() {
     // Show values on cells of tfoot
     ['hor_1', 'hor_2', 'min_1', 'min_2', 'seg_1', 'seg_2'].forEach(elem => {
-      document.getElementById(`t${elem}`).innerHTML = this.OBJ_TIME[elem];
+      document.getElementById(`t${elem}`).innerHTML = this.TIME_OBJ[elem];
     });
-    const { hor_1, hor_2, min_1, min_2, seg_1, seg_2 } = this.OBJ_TIME;
+    const { hor_1, hor_2, min_1, min_2, seg_1, seg_2 } = this.TIME_OBJ;
     const time = `${hor_1}${hor_2}:${min_1}${min_2}:${seg_1}${seg_2}`;
     document.getElementById('clock-time').innerHTML = time;
   }
 
   printClock() {
     this.getBinaryTime();
-    this.showHumanTime();
+    this.showDecimalTime();
 
     const element = (id) => document.getElementById(id);
     const getSignal = (row, value) => {
@@ -241,33 +242,33 @@ class BinaryDecimalClock {
       (row === 1) && (ret = [1, 3, 5, 7, 9].indexOf(value) > -1 ? this.IMG_ON : this.IMG_OFF);
       return ret;
     }
-    const objTime = this.OBJ_TIME;
+    const { hor_1, hor_2, min_1, min_2, seg_1, seg_2 } = this.TIME_OBJ;
     // Hours - 1º digit
-    element('img_h2_1').src = getSignal(2, objTime.hor_1);
-    element('img_h1_1').src = getSignal(1, objTime.hor_1);
+    element('img_h2_1').src = getSignal(2, hor_1);
+    element('img_h1_1').src = getSignal(1, hor_1);
     // Hours - 2º digit
-    element('img_h8_2').src = getSignal(8, objTime.hor_2);
-    element('img_h4_2').src = getSignal(4, objTime.hor_2);
-    element('img_h2_2').src = getSignal(2, objTime.hor_2);
-    element('img_h1_2').src = getSignal(1, objTime.hor_2);
+    element('img_h8_2').src = getSignal(8, hor_2);
+    element('img_h4_2').src = getSignal(4, hor_2);
+    element('img_h2_2').src = getSignal(2, hor_2);
+    element('img_h1_2').src = getSignal(1, hor_2);
     // Minutes - 1º digit
-    element('img_m4_1').src = getSignal(4, objTime.min_1);
-    element('img_m2_1').src = getSignal(2, objTime.min_1);
-    element('img_m1_1').src = getSignal(1, objTime.min_1);
+    element('img_m4_1').src = getSignal(4, min_1);
+    element('img_m2_1').src = getSignal(2, min_1);
+    element('img_m1_1').src = getSignal(1, min_1);
     // Minutes - 2º digit
-    element('img_m8_2').src = getSignal(8, objTime.min_2);
-    element('img_m4_2').src = getSignal(4, objTime.min_2);
-    element('img_m2_2').src = getSignal(2, objTime.min_2);
-    element('img_m1_2').src = getSignal(1, objTime.min_2);
+    element('img_m8_2').src = getSignal(8, min_2);
+    element('img_m4_2').src = getSignal(4, min_2);
+    element('img_m2_2').src = getSignal(2, min_2);
+    element('img_m1_2').src = getSignal(1, min_2);
     // Seconds - 1º digit
-    element('img_s4_1').src = getSignal(4, objTime.seg_1);
-    element('img_s2_1').src = getSignal(2, objTime.seg_1);
-    element('img_s1_1').src = getSignal(1, objTime.seg_1);
+    element('img_s4_1').src = getSignal(4, seg_1);
+    element('img_s2_1').src = getSignal(2, seg_1);
+    element('img_s1_1').src = getSignal(1, seg_1);
     // Seconds - 2º digit
-    element('img_s8_2').src = getSignal(8, objTime.seg_2);
-    element('img_s4_2').src = getSignal(4, objTime.seg_2);
-    element('img_s2_2').src = getSignal(2, objTime.seg_2);
-    element('img_s1_2').src = getSignal(1, objTime.seg_2);
+    element('img_s8_2').src = getSignal(8, seg_2);
+    element('img_s4_2').src = getSignal(4, seg_2);
+    element('img_s2_2').src = getSignal(2, seg_2);
+    element('img_s1_2').src = getSignal(1, seg_2);
   }
 
 }
